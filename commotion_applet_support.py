@@ -361,17 +361,17 @@ class CommotionMeshApplet():
         #    self.log('stderr: ' + err)
 
     def fallback_connect(self, connectionid):
-         if not os.path.exists(os.path.join('/etc/nm-dispatcher-olsrd', name + '.wpasupplicant')):
+         if not os.path.exists(os.path.join('/etc/nm-dispatcher-olsrd', connectionid + '.wpasupplicant')):
             print('No wpasupplicant config file available!')
             #write_wpasupplicant_conf(self, conn), and/or do something to stop the progression of the script if this fails
-         profile = readProfile(self, name) #This may not be correct - try it the other way
+         profile = self.readProfile(connectionid) #This may not be correct - try it the other way
          interface = str(dev.Interface)
          staticip = socket.inet_ntoa(struct.pack('=I', conn.GetSettings()['ipv4']['addresses'][0][0]))
          if 'running' in subprocess.check_output(['nmcli', 'nm', 'status']):
             print subprocess.check_call(['gksu', '-D', 'Encrypted mesh connection routine', '/usr/bin/nmcli nm sleep true'])
          print subprocess.check_call(['gksu', '/usr/bin/pkill -9 wpa_supplicant'])
          #Check for existance of replacement binary
-         subprocess.Popen(['gksu', '/usr/share/commotion_wpa_supplicant -Dnl80211 -i' + interface + '-c' + os.path.join('/etc/nm-dispatcher-olsrd', name + '.wpasupplicant')])
+         subprocess.Popen(['gksu', '/usr/share/commotion_wpa_supplicant -Dnl80211 -i' + interface + '-c' + os.path.join('/etc/nm-dispatcher-olsrd', connectionid + '.wpasupplicant')])
          print subprocess.check_call(['gksu', '/sbin/ifconfig ' + interface + ' up ' + staticip  + ' netmask 255.0.0.0'])
          self.startOlsrd(interface, profile['conf'])
 
