@@ -36,10 +36,11 @@ class JsonInfo():
 
 class MeshStatus():
 
-    def __init__(self, portinghacks):
+    def __init__(self, portinghacks,
+            imagedir = '/usr/share/icons/hicolor/32x32/actions'):
         self.port = portinghacks
         self.jsoninfo = JsonInfo()
-        self.imagedir = '/usr/share/icons/hicolor/32x32/actions'
+        self.imagedir = imagedir
         # liststore data:  IP, LQ, NLQ, have_internet, have_HNA
         self.liststore = Gtk.ListStore(str, int, int, bool, bool)
         self.mesh_connected = False
