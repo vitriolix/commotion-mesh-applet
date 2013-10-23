@@ -1,8 +1,14 @@
 #!/usr/bin/python
 
-import dbus.mainloop.glib ; dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
+try:
+    import dbus.mainloop.glib ; dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
+except: 
+    pass
 import json
-import NetworkManager
+try:
+    import NetworkManager
+except:
+    pass
 import os
 import sys
 import urllib2
@@ -14,7 +20,7 @@ try:
     from gi.repository import Gtk, GObject
 except: # Can't use ImportError, as gi.repository isn't quite that nice...
     import gtk as Gtk
-
+    import gobject as GObject
 
 class JsonInfo():
 
